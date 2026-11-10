@@ -1,0 +1,12 @@
+const router=require('express').Router();
+const controller=require('../controllers/applicationController');
+const presentationUpload=require('../middleware/presentationUpload');
+const logoUpload=require('../middleware/logoUpload');
+router.get('/',controller.list);
+router.get('/:slug',controller.get);
+router.post('/',controller.create);
+router.put('/:id',controller.update);
+router.post('/:id/presentation',presentationUpload.single('presentation'),controller.uploadPresentation);
+router.post('/:id/logo',logoUpload.single('logo'),controller.uploadLogo);
+router.delete('/:id',controller.archive);
+module.exports=router;

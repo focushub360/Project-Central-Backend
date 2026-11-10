@@ -1,0 +1,4 @@
+const Application=require('../models/Application');
+
+exports.list=async(req,res,next)=>{try{const application=await Application.findById(req.params.applicationId).select('credentials credentialsAvailable');if(!application)return res.status(404).json({message:'Application not found.'});res.json({credentials:application.credentials||[],credentialsAvailable:application.credentialsAvailable})}catch(error){next(error)}};
+exports.update=async(req,res,next)=>{try{const credentials=Array.isArray(req.body.credentials)?req.body.credentials:[];const application=await Application.findByIdAndUpdate(req.params.applicationId,{credentials,credentialsAvailable:credentials.length>0},{new:true,runValidators:true}).select('credentials credentialsAvailable');if(!application)return res.status(404).json({message:'Application not found.'});res.json(application)}catch(error){next(error)}};
